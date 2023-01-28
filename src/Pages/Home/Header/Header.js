@@ -13,7 +13,6 @@ const Header = () => {
 
     const menuitem = <>
         <li><Link to='/'><a>Home</a></Link></li>
-        <li><a>Blog</a></li>
         {
           !user?.uid &&
           <><li><Link to='/signup'><a>Signup</a></Link></li>
