@@ -1,13 +1,18 @@
 import React, { createContext, useEffect, useState } from 'react';
-import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile} from 'firebase/auth'
+import {createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from 'firebase/auth'
 import { app } from '../../Firebase/firebase.config';
 
 const auth = getAuth(app)
 export const AuthContext = createContext()
+const googleProvider = new GoogleAuthProvider()
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState()
     const [loading, setLoading] = useState(false)
+
+    if(loading){
+        <progress className='progress w-full progress-accent'></progress>
+    }
 
     const signupemail = (email, password) => {
         setLoading(true)
@@ -24,9 +29,9 @@ const AuthProvider = ({children}) => {
         return updateProfile(auth.currentUser, profile)
     }
 
-    const logout = () => {
+    const signInwithPop = () => {
         setLoading(true)
-        return signOut(auth)
+        return signInWithPopup(auth, googleProvider)
     }
 
     useEffect( () => {
@@ -39,12 +44,20 @@ const AuthProvider = ({children}) => {
         }
     }, [])
 
+    const logout = () => {
+        setLoading(true)
+        return signOut(auth)
+    }
+
+    
+
     const authinfo = {
         user,
         signupemail,
         loginemail,
         logout,
-        updateprofile
+        updateprofile,
+        signInwithPop
     }
 
     return (
