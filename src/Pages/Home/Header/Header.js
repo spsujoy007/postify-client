@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
 
 const Header = () => {
+    const {user, logout} = useContext(AuthContext)
+
+    const handlelogout = () => {
+       logout()
+       .then(() => {})
+       .catch(e => console.log(e))
+    }
 
     const menuitem = <>
         <li><a>Home</a></li>
         <li><a>Blog</a></li>
-        <li><Link to='/login'><a>Login</a></Link></li>
-        <li><Link to='/signup'><a>Signup</a></Link></li>
+        {
+          user?.uid ?
+          <li><button onClick={handlelogout} className='btn btn-ghost'>Logout</button></li>
+          :
+          <>
+          <li><Link to='/login'><a>Login</a></Link></li>
+          <li><Link to='/signup'><a>Signup</a></Link></li>
+          </>
+        }
     </>
 
     return (
@@ -30,7 +45,28 @@ const Header = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Profile</a>
+  {
+    user?.uid && <div className="dropdown dropdown-end">
+    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+      <div className="w-10 rounded-full">
+        {user?.photoURL ? <img alt={user?.displayName} src={user.photoURL} />
+        :
+        <span className="text-3xl">{user?.displayName[0]}</span>
+        }
+      </div>
+    </label>
+    <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+      <li>
+        <a className="justify-between">
+          Profile
+          <span className="badge">New</span>
+        </a>
+      </li>
+      <li><a>Settings</a></li>
+      <li><a>Logout</a></li>
+    </ul>
+  </div>
+  }
   </div>
 </div>
         </div>

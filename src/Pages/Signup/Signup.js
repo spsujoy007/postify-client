@@ -1,14 +1,49 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Signup = () => {
+    const navigate = useNavigate()
+    const {user, signupemail, updateprofile} = useContext(AuthContext);
+    const [error, setError] = useState(false)
+
+    const handleSignup = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        signupemail(email, password)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+            if(user){
+                navigate('/')
+                handleupdateProfile(name)
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            setError(error.message)
+        })
+    }
+
+    const handleupdateProfile = (name) => {
+        const profile = {
+            displayName: name
+        }
+        updateprofile(profile)
+        .then(() => {})
+        .catch(e => console.error(e))
+    }
+
     return (
         <div>
             <div>
             <div className='my-2'>
            <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 mx-auto">
 	<h1 className="text-2xl font-bold text-center">Registration</h1>
-	<form  className="space-y-6 ng-untouched ng-pristine ng-valid">
+	<form onSubmit={handleSignup} className="space-y-6 ng-untouched ng-pristine ng-valid">
 		<div className="space-y-1 text-sm">
 			<label for="name" className="block text-gray-600">Name</label>
 			<input type="text" name="name" id="name" placeholder="name" className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-emerald-600 bg-blue-100" />
@@ -23,8 +58,8 @@ const Signup = () => {
 		</div>
 
 		{/* success massage  */}
-		{/* {success && <p className='text-success'>Register successful</p> }
-		<div className='text-error'>{error}</div> */}
+		{/* {success && <p className='text-success'>Register successful</p> } */}
+		<div className='text-error'>{error}</div>
 
 		<button type='submit' className="block btn w-full p-3 text-center rounded-sm text-gray-50 bg-primary">Sign up</button>
 	</form>
@@ -41,7 +76,7 @@ const Signup = () => {
 		</button>
 		
 	</div>
-	<p className="text-xl text-center text-gray-600">Already have an account?
+	<p className="text-lg text-center text-gray-600">Already have an account?
 		<Link rel="noopener noreferrer" className="underline text-gray-800" to="/login">Login</Link>
 	</p>
 </div>
