@@ -1,13 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const PostDetail = ({post}) => {
-    const {name, avatar, message} = post 
+    const {name, avatar, message, email} = post 
     return (
         <div>
-                <div className=" w-full mb-2 bg-white rounded-xl">
+            <div className=" w-full mb-2 bg-white rounded-xl">
           <div className="p-3">
             <div className="flex items-center gap-x-3">
-            <div className="avatar ">
+            <Link to={`/profile/${email}`}>
+            <div className="avatar">
               <div className="w-9 h-9 rounded-full bg-gray-300 ">
                 {
                     post?.avatar ? <img src={avatar} alt="name" />
@@ -16,6 +18,7 @@ const PostDetail = ({post}) => {
                 }
               </div>
             </div>
+            </Link>
             <div>
                 <p className='text-md'>{name}</p>
                 <p className='text-sm'>12-01-2023</p>

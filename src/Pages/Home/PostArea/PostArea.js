@@ -49,7 +49,7 @@ const PostArea = () => {
   return (
     <Container>
       <form onSubmit={handlePost} className="mt-7">
-        <div className="card w-ful bg-white">
+        <div className="card w-full bg-white">
           <div className="card-body">
             <div className="flex items-start gap-x-3">
             <div className="avatar ">
@@ -61,7 +61,7 @@ const PostArea = () => {
                 }
               </div>
             </div>
-            <div className="w-full flex items-center gap-2">
+            <div className="w-full flex items-start gap-2">
                 <input name="message" onFocus={() => setModal(true)} onBlur={() => setModal(false)} type="text" placeholder="what's on your mind?" className={modal ? "rounded-md input input-bordered w-full h-[100px]" : "rounded-full input input-bordered w-full h-10"} />
                   <button type="submit" className="btn bg-white border-none text-2xl text-gray-800 rounded-btn hover:text-sky-500 hover:bg-sky-100"><AiOutlineSend></AiOutlineSend></button>
 

@@ -9,11 +9,13 @@ const Protection = ({children}) => {
     if(!user?.uid){
         return navigate('/login')
     }
-    return (
-        <div>
-            {children}
-        </div>
-    )
+    else {
+        return (
+            <div>
+                {children}
+            </div>
+        )
+    }
 };
 
 export default Protection;

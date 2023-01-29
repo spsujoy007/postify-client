@@ -5,7 +5,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 
 const Signup = () => {
     const navigate = useNavigate()
-    const {user, signInwithPop, signupemail, updateprofile} = useContext(AuthContext);
+    const {signInwithPop, signupemail, updateprofile} = useContext(AuthContext);
     const [error, setError] = useState(false)
 
     const handleSignup = (e) => {
@@ -17,11 +17,26 @@ const Signup = () => {
         signupemail(email, password)
         .then(result => {
             const user = result.user;
-            console.log(user);
             if(user){
-                toast.success("Account created successfuly")
                 navigate('/')
+                toast.success("Account created successfuly")
                 handleupdateProfile(name)
+
+                const userdetail = {
+                    name: name,
+                    email: user.email,
+                    avatar: undefined
+                }
+                
+                fetch(`http://localhost:5000/saveuser`, {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userdetail)
+                })
+                .then(res => res.json())
+                .then(data => console.log('account saved'))
             }
         })
         .catch(error => {
@@ -44,7 +59,24 @@ const Signup = () => {
         .then(result => {
             toast.success(`Welcome ${result.user.displayName}`)
             navigate('/')
-        })
+            const user = result.user;
+            const userdetail = {
+                name: user.displayName,
+                email: user.email,
+                avatar: user?.photoURL
+            }
+
+            fetch(`http://localhost:5000/saveuser`, {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userdetail)
+                })
+                .then(res => res.json())
+                .then(data => console.log('account saved'));
+
+            })
 
     }
 

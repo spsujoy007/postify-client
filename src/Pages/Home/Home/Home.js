@@ -4,7 +4,7 @@ import PostArea from '../PostArea/PostArea';
 
 const Home = () => {
     return (
-        <div>
+        <div className='min-h-screen'>
             <PostArea></PostArea>
             <AllPosts></AllPosts>
         </div>
