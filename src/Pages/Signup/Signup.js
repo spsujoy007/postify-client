@@ -19,7 +19,7 @@ const Signup = () => {
             const user = result.user;
             console.log(user);
             if(user){
-                toast.success("Login successful")
+                toast.success("Account created successfuly")
                 navigate('/')
                 handleupdateProfile(name)
             }
@@ -29,7 +29,7 @@ const Signup = () => {
             setError(error.message)
         })
     }
-
+    
     const handleupdateProfile = (name) => {
         const profile = {
             displayName: name
@@ -43,6 +43,7 @@ const Signup = () => {
         signInwithPop()
         .then(result => {
             toast.success(`Welcome ${result.user.displayName}`)
+            navigate('/')
         })
 
     }

@@ -52,9 +52,9 @@ const Header = () => {
     </label>
     <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
       <li>
-        <a className="justify-between">
+        <Link to='/profile'><a className="justify-between">
           Profile
-        </a>
+        </a></Link>
       </li>
       <li><button onClick={handlelogout} className=''>Logout</button></li>
     </ul>

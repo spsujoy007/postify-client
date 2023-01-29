@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "../../../Components/Container/Container";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { AiOutlineSend } from "react-icons/ai";
@@ -23,7 +23,8 @@ const PostArea = () => {
         }
         console.log(postbody)
 
-        fetch(`https://postify-server.vercel.app/newpost`, {
+        if(message.length > 0){
+          fetch(`https://postify-server.vercel.app/newpost`, {
             method: "POST",
             headers: {
                 'content-type': "application/json"
@@ -39,6 +40,10 @@ const PostArea = () => {
                 form.reset()
             }
         })
+        }
+        else{
+          toast.error('You should write something')
+        }
     }
 
   return (
@@ -56,20 +61,11 @@ const PostArea = () => {
                 }
               </div>
             </div>
-            <>
-            {
-                modal ?
-                <div className="w-full">
-                <textarea name="message" onFocus={() => setModal(true)} type="text" placeholder="what's on your mind?" className="rounded-xl input input-bordered w-full h-[100px] block" />
-                <div className="flex justify-end mt-2">
-                    <button type="submit" className="btn btn-ghost text-2xl text-gray-800"><AiOutlineSend></AiOutlineSend></button>
-                </div>
-                </div>
-                :
-                <input onFocus={() => setModal(true)} onBlur={() => setModal(false)} type="text" placeholder="what's on your mind?" className="rounded-full input input-bordered w-full h-10" />
-            }
+            <div className="w-full flex items-center gap-2">
+                <input name="message" onFocus={() => setModal(true)} onBlur={() => setModal(false)} type="text" placeholder="what's on your mind?" className={modal ? "rounded-md input input-bordered w-full h-[100px]" : "rounded-full input input-bordered w-full h-10"} />
+                  <button type="submit" className="btn bg-white border-none text-2xl text-gray-800 rounded-btn hover:text-sky-500 hover:bg-sky-100"><AiOutlineSend></AiOutlineSend></button>
 
-            </>
+            </div>
             </div>
           </div>
         </div>
