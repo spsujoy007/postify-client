@@ -25,13 +25,13 @@ const ProfilePage = () => {
     const {data: follow = []} = useQuery({
         queryKey: ['follow'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/isfollower?email=${email}`);
+            const res = await fetch(`http://localhost:5000/isfollower?email=${user?.email}`);
             const data = await res.json();
             return data;
         }
     })
 
-    const {data: myfollowers = []} = useQuery({
+    const {data: following = []} = useQuery({
         queryKey: ['myfollowers'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/myfollowers?email=${email}`);
@@ -39,8 +39,6 @@ const ProfilePage = () => {
             return data;
         }
     })
-
-    console.log("Following", myfollowers, email)
 
     if(user?.email === email){
         return navigate('/myprofile')
@@ -75,22 +73,22 @@ const ProfilePage = () => {
       <div className="bg-white flex items-start gap-x-4 p-10 rounded-xl shadow-lg">
         <div className="avatar">
           <div className="w-24 rounded-full">
-            <img src={avatar} alt={name?.slice(0, 10)} />
+            <img src={avatar ? avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"} alt={name?.slice(0, 10)} />
           </div>
         </div>
         <div>
           <h1 className="text-2xl font-bold">{name}</h1>
           <p>{email}</p>
           {
-            myfollowers.length ?
+            following.length ?
             <div className="avatar-group -space-x-4 mt-3 ">
             {
-                myfollowers.map(followers => <div 
+                following.map(followers => <div 
                 key={followers._id} 
                 className="avatar">
 
                 <div className="w-9">
-                  <img src={followers.avatar} alt="" />
+                  <img src={followers.avatar ? followers.avatar : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"} alt="" />
                 </div>
                 {/* <h1 className='text-sm py-2'>{followers.length} followers</h1> */}
               </div>)

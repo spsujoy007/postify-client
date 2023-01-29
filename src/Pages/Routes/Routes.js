@@ -2,6 +2,7 @@ import { async } from "@firebase/util";
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../../Layout/Main";
 import Home from "../Home/Home/Home";
+import MyFollowers from "../Home/MyProfile/MyFollowers/MyFollowers";
 import MyProfile from "../Home/MyProfile/MyProfile";
 import Login from "../Login/Login";
 import ProfilePage from "../ProfilePage/ProfilePage";
@@ -33,6 +34,10 @@ export const routes = createBrowserRouter([
                 path: '/profile/:email',
                 loader: async({params}) => await fetch(`http://localhost:5000/profile/${params.email}`),
                 element: <ProfilePage></ProfilePage>
+            },
+            {
+                path: '/followers',
+                element: <MyFollowers></MyFollowers>
             }
         ]
     }

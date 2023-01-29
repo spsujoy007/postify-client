@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostDetail = ({post}) => {
-    const {name, avatar, message, email} = post 
+    const {name, avatar, message, email} = post;
     return (
         <div>
             <div className=" w-full mb-2 bg-white rounded-xl">
